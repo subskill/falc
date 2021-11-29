@@ -1,6 +1,7 @@
 {
   "name": "subskill/falc",
   "type": "library",
+  "license": "MIT",
   "authors": [
     {
       "name": "subskill-mgrec",
