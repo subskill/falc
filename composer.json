@@ -1,0 +1,19 @@
+{
+  "name": "subskill/falc",
+  "type": "library",
+  "authors": [
+    {
+      "name": "subskill-mgrec",
+      "email": "m.grec@subskill.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "Falc": "src/"
+    }
+  }
+}
