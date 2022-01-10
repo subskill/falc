@@ -2,7 +2,7 @@
 
 namespace Falc;
 
-class falc
+class Falc
 {
 
     /**
@@ -180,12 +180,12 @@ class falc
                     break;
                 case "br":
                     $needle     = ".";
-                    $contains   = str_replace($needle, "<br>", $str);
+                    $contains   = str_replace($needle, ".<br>", $str);
                     break;
 
                 case "rn":
                     $needle     = ".";
-                    $contains   = str_replace($needle, "\r\n", $str);
+                    $contains   = str_replace($needle, ".\r\n", $str);
                     break;
                 default:
                     return "type non reconnue";
@@ -273,7 +273,7 @@ class falc
      * @param string $next
      * @return string
      */
-    public function numberInLetter(string $string, $next = "") {
+    public function numberInLetter(string $string, $next = "", string $class = null) {
         $array_string           =   explode(" ", $string);
         $array_string_after     =   [];
         $this->is_span_opened   =   false;
@@ -290,6 +290,11 @@ class falc
                 if( !$this->is_span_opened ) {
                     $this->is_span_opened = true;
                     $array_string_after[] = '<span>' . $s;// . '</span>';
+                    if (!is_null($class) && !empty($class)){
+                        $array_string_after[] = "<span class='$class'>" . $s;// . '</span>';
+                    }else{
+                        $array_string_after[] = "<span>" . $s;// . '</span>';
+                    }
                 } else {
                     $array_string_after[] = $s;// . '</span>';
                 }
@@ -311,5 +316,38 @@ class falc
             $array_string_after[$count-1] = $array_string_after[$count-1] . '</span>';
         }
         return join(" ", $array_string_after);
+    }
+
+    public function complexTitle(string $string, string $type = null, string $class = null) {
+        preg_match_all('/[a-zA-Z0-9][.][a-zA-Z0-9][.][a-zA-Z0-9]/', $string, $matches);
+
+        try{
+
+            switch (strtolower($type)) {
+                case null:
+                    return $matches;
+                    break;
+                case "span":
+                    if (is_null($class)) {
+                        foreach ($matches[0] as $key => $match){
+                            $string = str_replace($match, "<span>" . $match . "</span>", $string);
+                        }
+                    }else{
+                        foreach ($matches[0] as $key => $match){
+                            $string = str_replace($match, "<span class='$class'>" . $match . "</span>", $string);
+                        }
+                    }
+
+                    break;
+                default:
+                    return "type non reconnue";
+            }
+
+        }catch (\Exception $e){
+            return $e->getMessage();
+        }
+
+        return $string;
+
     }
 }
