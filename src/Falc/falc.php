@@ -318,6 +318,12 @@ class Falc
         return join(" ", $array_string_after);
     }
 
+    /**
+     * @param string $string
+     * @param string|null $type
+     * @param string|null $class
+     * @return mixed|string
+     */
     public function complexTitle(string $string, string $type = null, string $class = null) {
         preg_match_all('/[a-zA-Z0-9][.][a-zA-Z0-9][.][a-zA-Z0-9]/', $string, $matches);
 
