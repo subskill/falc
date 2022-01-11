@@ -164,14 +164,15 @@ class Falc
      * @param string|null $breaker
      * @return array|mixed|string
      */
-    public function lineBreak(string $str, string $breaker = null)
+    public function lineBreak(string $str, string $breaker = null, array $list = null)
     {
         try{
             switch (strtolower($breaker)) {
                 case null:
-                    $contains   = [];
-                    $lastPos    = 0;
-                    $needle     = ".";
+                    $contains       = [];
+                    $lastPos        = 0;
+                    $needle         = ".";
+                    $listBreaker    = array();
                     while (($lastPos = strpos($str, $needle, $lastPos)) !== false) {
                         $contains[] = $lastPos;
                         $lastPos = $lastPos + strlen($needle);
@@ -179,13 +180,35 @@ class Falc
 
                     break;
                 case "br":
-                    $needle     = ".";
-                    $contains   = str_replace($needle, ".<br>", $str);
-                    break;
-
                 case "rn":
                     $needle     = ".";
-                    $contains   = str_replace($needle, ".\r\n", $str);
+                    $lastPos    = 0;
+                    $start_pos  = 0;
+                    $f_string   = "";
+
+                    while (($lastPos = strpos($str, $needle, $lastPos)) !== false) {
+                        $offsetPos = $lastPos - $start_pos;
+                        if (substr($str, $lastPos, 3) == "..."){
+                            $partString = substr($str, $start_pos, $offsetPos+3);
+                            $lastPos    = $lastPos + 3;
+                        } else {
+                            $partString = substr($str, $start_pos, $offsetPos+1);
+                            $lastPos = $lastPos + 1;
+                        }
+                        $start_pos  =   $lastPos;
+                        $f_string   .= trim($partString) . (($breaker == "br")?'<br />':'\r\n');
+
+                    }
+
+                    if ($list){
+                        foreach ($list as $key => $el){
+
+                            $listBreaker[]=  $el . (($breaker == "br")?'<br />':'\r\n');
+                        }
+                        $f_string = str_replace($list, $listBreaker , $f_string);
+                    }
+
+                    $contains = $f_string;
                     break;
                 default:
                     return "type non reconnue";
@@ -193,7 +216,6 @@ class Falc
         }catch (\Exception $e){
             return $e->getMessage();
         }
-
         return $contains;
     }
 
