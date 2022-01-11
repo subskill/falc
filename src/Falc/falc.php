@@ -270,6 +270,7 @@ class Falc
      * @return bool
      */
     private function isANumber($s) {
+        $s = strtolower($s);
         return in_array($s, $this->miscNumbers) || in_array($s, $this->digits) || in_array($s, $this->exponent);
     }
 
@@ -311,7 +312,7 @@ class Falc
                     // str_replace : remplace " " par "-". Donc <span class="xxxxx" => <span-class="xxxx"
                     $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s), $class ,$next_string));
 
-                    // meme probleme class="xxxxx yyyy " devient class="xxxxx-yyyy"
+                    // meme probleme class="xxxxx yyyy" devient class="xxxxx-yyyy"
                     $class_serach           =   str_replace(" ", "-", $class);
                     $str_fix_class          =   str_replace("<span-class='$class_serach'>", "<span class='$class'>", $sub_string);
 
