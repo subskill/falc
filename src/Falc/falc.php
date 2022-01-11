@@ -304,7 +304,7 @@ class Falc
             $is_dash_in_s   =   strpos($s, $this->dash);
             if( $is_dash_in_s !== false ) {
                 $next_string            =   $this->getNextString($key, $array_string, 1);
-                $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s),$next_string));
+                $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s), $class ,$next_string));
                 $array_string_after[]   =   $sub_string;
                 continue 1;
             }
