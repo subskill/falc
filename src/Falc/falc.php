@@ -311,7 +311,7 @@ class Falc
             if ( $this->isANumber($s) ) {
                 if( !$this->is_span_opened ) {
                     $this->is_span_opened = true;
-                    $array_string_after[] = '<span>' . $s;// . '</span>';
+                    //$array_string_after[] = '<span>' . $s;// . '</span>';
                     if (!is_null($class) && !empty($class)){
                         $array_string_after[] = "<span class='$class'>" . $s;// . '</span>';
                     }else{
