@@ -295,7 +295,7 @@ class Falc
      * @param string $next
      * @return string
      */
-    public function numberInLetter(string $string, $next = "", string $class = null) {
+    public function numberInLetter(string $string, string $class = null, $next = "") {
         $array_string           =   explode(" ", $string);
         $array_string_after     =   [];
         $this->is_span_opened   =   false;
@@ -304,7 +304,19 @@ class Falc
             $is_dash_in_s   =   strpos($s, $this->dash);
             if( $is_dash_in_s !== false ) {
                 $next_string            =   $this->getNextString($key, $array_string, 1);
-                $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s), $class ,$next_string));
+                if (is_null($class)){
+                    $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s), $class ,$next_string));
+                } else{
+
+                    // str_replace : remplace " " par "-". Donc <span class="xxxxx" => <span-class="xxxx"
+                    $sub_string             =   str_replace(" ", "-", $this->numberInLetter(str_replace($this->dash, " ", $s), $class ,$next_string));
+
+                    // meme probleme class="xxxxx yyyy " devient class="xxxxx-yyyy"
+                    $class_serach           =   str_replace(" ", "-", $class);
+                    $str_fix_class          =   str_replace("<span-class='$class_serach'>", "<span class='$class'>", $sub_string);
+
+                    $sub_string             =   $str_fix_class;
+                }
                 $array_string_after[]   =   $sub_string;
                 continue 1;
             }
