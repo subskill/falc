@@ -391,4 +391,39 @@ class Falc
         return $string;
 
     }
+
+    /**
+     * @param string $string
+     * @param string|null $type
+     * @param string|null $class
+     * @return mixed|string
+     */
+    public function largeNumbers(string $string, string $type = null, string $class = null) {
+        preg_match_all('!(\d{4,}),\d+|(\d{4,})\.\d+|(\d{4,})!', $string, $matches);
+        try{
+            switch (strtolower($type)) {
+                case null:
+                    return $matches;
+                    break;
+                case "span":
+                    if (is_null($class)) {
+                        foreach ($matches[0] as $key => $match){
+                            $string = str_replace($match, "<span>" . $match . "</span>", $string);
+                        }
+                    }else{
+                        foreach ($matches[0] as $key => $match){
+                                $string = str_replace($match, "<span class='$class'>" . $match . "</span>", $string);
+                        }
+                    }
+
+                    break;
+                default:
+                    return "type non reconnue";
+            }
+        } catch (\Exception $e){
+            return $e->getMessage();
+        }
+
+        return $string;
+    }
 }
