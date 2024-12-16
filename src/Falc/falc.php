@@ -399,7 +399,7 @@ class Falc
      * @return mixed|string
      */
     public function largeNumbers(string $string, string $type = null, string $class = null) {
-        preg_match_all('!(\d{4,}),\d+|(\d{4,})\.\d+|(\d{4,})!', $string, $matches);
+        preg_match_all('/(?:(?!color:#)(?<=^|[^\w#])|^)(\d{4,})(?:,\d+|\.\d+|)/', $string, $matches);
         try{
             switch (strtolower($type)) {
                 case null:
